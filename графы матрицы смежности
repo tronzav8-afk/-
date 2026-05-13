@@ -1,0 +1,62 @@
+#include <iostream>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+class Graph {
+    int n;
+    bool dir;
+    vector<vector<int>> m;
+public:
+    Graph(int vertices, bool directed = false) : n(vertices), dir(directed) {
+        m.resize(vertices, vector<int>(vertices, 0));
+    }
+    
+    void addEdge(int u, int v, int w = 1) {
+        if (u >= 0 && u < n && v >= 0 && v < n) {
+            m[u][v] = w;
+            if (!dir) m[v][u] = w;
+        }
+    }
+    
+    void removeEdge(int u, int v) {
+        if (u >= 0 && u < n && v >= 0 && v < n) {
+            m[u][v] = 0;
+            if (!dir) m[v][u] = 0;
+        }
+    }
+    
+    bool hasEdge(int u, int v) {
+        return (u >= 0 && u < n && v >= 0 && v < n) ? m[u][v] != 0 : false;
+    }
+    
+    vector<int> getNeighbors(int u) {
+        vector<int> res;
+        if (u >= 0 && u < n)
+            for (int v = 0; v < n; v++)
+                if (m[u][v] != 0) res.push_back(v);
+        return res;
+    }
+    
+    void display() {
+        cout << "  ";
+        for (int i = 0; i < n; i++) cout << setw(3) << i;
+        cout << "\n";
+        for (int i = 0; i < n; i++) {
+            cout << setw(2) << i << " ";
+            for (int j = 0; j < n; j++) cout << setw(3) << m[i][j];
+            cout << "\n";
+        }
+    }
+};
+
+int main() {
+    Graph g(5);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(1, 3);
+    g.addEdge(2, 4);
+    g.display();
+    return 0;
+}
