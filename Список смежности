@@ -1,0 +1,35 @@
+#include <iostream>
+#include <vector>
+#include <list>
+using namespace std;
+
+class Graph {
+    int n;
+    vector<list<int>> adj;
+public:
+    Graph(int vertices) : n(vertices), adj(vertices) {}
+    
+    void addEdge(int u, int v, bool dir = false) {
+        adj[u].push_back(v);
+        if (!dir) adj[v].push_back(u);
+    }
+    
+    void display() {
+        for (int i = 0; i < n; i++) {
+            cout << i << ": ";
+            for (int v : adj[i]) cout << v << " ";
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Graph g(5);
+    g.addEdge(0, 1);
+    g.addEdge(0, 2);
+    g.addEdge(1, 2);
+    g.addEdge(1, 3);
+    g.addEdge(2, 4);
+    g.display();
+    return 0;
+}
